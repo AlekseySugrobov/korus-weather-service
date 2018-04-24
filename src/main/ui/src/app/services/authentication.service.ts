@@ -1,21 +1,25 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {environment} from "../../environments/environment";
+import {User} from "../model/user.entity";
+import {Router, Routes} from "@angular/router";
 
 @Injectable()
-export class AuthenticationService{
-  constructor(private http: HttpClient){}
+export class AuthenticationService {
+  constructor(private http: HttpClient, private route: Router) {
+  }
 
-  authenticate(credentials, callback){
-    const headers = new HttpHeaders(credentials ? {
-      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    } : {});
-    this.http.get('user', {headers: headers}).subscribe( response => {
-      if(response['name']){
-        console.log('authenticated');
+  isLoggedIn = false;
+
+  login(user: User) {
+    return this.http.post<User>(environment.login, user)
+    .subscribe((currentUser: User) => {
+      if (!User.isNull(currentUser)) {
+        this.isLoggedIn = true;
       } else {
-        console.log('not authenticated');
+        this.isLoggedIn = false;
       }
-      return callback && callback();
     });
   }
 }

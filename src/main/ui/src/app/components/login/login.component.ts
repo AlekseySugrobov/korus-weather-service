@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
-import {Credentials} from "../../model/credentials.entity";
+import {User} from "../../model/user.entity";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,7 @@ import {Credentials} from "../../model/credentials.entity";
 })
 export class LoginComponent implements OnInit {
 
-  credentials:Credentials = {username: '', password: ''};
+  credentials:User = {email: '', password: ''};
 
   constructor(private auth: AuthenticationService, private router: Router) { }
 
@@ -18,11 +18,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    console.log(this.credentials);
-    this.auth.authenticate(this.credentials, () => {
-      this.router.navigateByUrl('/');
-    });
-    return false;
+    this.auth.login(this.credentials);
   }
 
 }

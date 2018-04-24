@@ -3,10 +3,12 @@ package ru.sugrobov.weather.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
 @Data
+@ToString
 public class User {
 
   @Id
