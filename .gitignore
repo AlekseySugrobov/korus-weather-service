@@ -75,3 +75,8 @@ hs_err_pid*
 
 /.idea/korus-weather-service.iml
 /.idea/modules.xml
+node_modules/
+/src/main/ui/node_modules/
+/src/main/resources/static/
+/.idea/encodings.xml
+/target
