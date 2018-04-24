@@ -25,7 +25,7 @@ public class WeatherServiceApplication {
           .httpBasic()
           .and()
           .authorizeRequests()
-          .antMatchers("/index.html", "/", "/home", "/login").permitAll()
+          .antMatchers("/index.html", "/", "/login").permitAll()
           .anyRequest().authenticated();
     }
   }

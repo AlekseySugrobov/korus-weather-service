@@ -1,0 +1,17 @@
+<div align="center">
+  <div class="form">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Имя пользователя" id="username" name="username"
+             [value]="credentials.username" (input)="credentials.username = $event.target.value">
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Пароль" type="password" id="password" name="password"
+             [value]="credentials.password" (input)="credentials.password = $event.target.value">
+      <mat-icon matSuffix>vpn_key</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="login()">Войти</button>
+  </div>
+</div>
