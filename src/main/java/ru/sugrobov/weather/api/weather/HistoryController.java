@@ -41,7 +41,7 @@ public class HistoryController {
                 historyResponse.setHistory(historyRepository.findAll());
             } else {
                 historyResponse.setOperationMessage("load history list for user " + user.getUserId());
-                historyResponse.setHistory(historyRepository.findByUserOrderByActionDateg(user));
+                historyResponse.setHistory(historyRepository.findByUserOrderByActionDateDesc(user));
             }
         }
         return historyResponse;
