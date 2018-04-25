@@ -1,5 +1,6 @@
 <button mat-raised-button [matMenuTriggerFor]="menu">Меню</button>
 <mat-menu #menu="matMenu">
-  <a routerLink="/login"><button mat-menu-item>Авторизация</button></a>
+  <a routerLink="/login" *ngIf="isLogged() === false"><button mat-menu-item>Авторизация</button></a>
   <a routerLink="/"><button mat-menu-item>Главная</button></a>
+  <a routerLink="/"><button mat-menu-item *ngIf="isLogged() === true" (click)="logout()" title="Выйти">{{getFullName()}}</button></a>
 </mat-menu>

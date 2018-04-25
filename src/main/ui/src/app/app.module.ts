@@ -12,7 +12,10 @@ import {
 import { SearchComponent } from './components/search/search.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/login/login.component';
-import {AuthenticationService} from "./services/authentication.service";
+import {LoginService} from "./services/api/login.service";
+import {UserInfoService} from "./services/user-info.service";
+import {ApiRequestService} from "./services/api/api-request.service";
+import {AppConfig} from "./app-config";
 import {HttpClientModule} from "@angular/common/http";
 
 
@@ -34,7 +37,7 @@ import {HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [AuthenticationService],
+  providers: [LoginService, UserInfoService, ApiRequestService, AppConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

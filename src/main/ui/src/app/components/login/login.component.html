@@ -1,8 +1,8 @@
 <div align="center">
-  <div class="form">
+  <div class="form" *ngIf="loggedIn() === false">
     <mat-form-field class="full-width">
       <input matInput placeholder="Имя пользователя" id="username" name="username"
-             [value]="credentials.email" (input)="credentials.email = $event.target.value">
+             [value]="credentials.username" (input)="credentials.username = $event.target.value">
       <mat-icon matSuffix>person</mat-icon>
     </mat-form-field>
 
@@ -11,7 +11,13 @@
              [value]="credentials.password" (input)="credentials.password = $event.target.value">
       <mat-icon matSuffix>vpn_key</mat-icon>
     </mat-form-field>
+    <div class="s-login-pg-foot">
+      <div *ngIf="errMsg" style="color:indianred; font-weight: bold">{{errMsg}}</div>
+    </div>
 
     <button mat-raised-button color="primary" (click)="login()">Войти</button>
+  </div>
+  <div class="form" *ngIf="loggedIn() === true">
+    <h3>Вы уже авторизованы</h3>
   </div>
 </div>

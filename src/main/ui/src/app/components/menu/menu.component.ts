@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserInfoService} from "../../services/user-info.service";
+import {LoginService} from "../../services/api/login.service";
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userInfoService: UserInfoService, private loginService: LoginService) { }
 
   ngOnInit() {
   }
 
+  isLogged():boolean{
+    return this.userInfoService.isLoggedIn();
+  }
+
+  getFullName():string{
+    return this.userInfoService.getUserInfo().displayName;
+  }
+
+  logout(){
+    this.loginService.logout();
+  }
 }
