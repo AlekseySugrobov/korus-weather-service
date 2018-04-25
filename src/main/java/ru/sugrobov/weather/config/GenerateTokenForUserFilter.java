@@ -16,9 +16,12 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.sugrobov.weather.identity.TokenUser;
 import ru.sugrobov.weather.identity.TokenUtil;
+import ru.sugrobov.weather.model.history.UserAction;
 import ru.sugrobov.weather.model.response.OperationResponse;
 import ru.sugrobov.weather.model.session.SessionItem;
 import ru.sugrobov.weather.model.session.SessionResponse;
+import ru.sugrobov.weather.repository.UserRepository;
+import ru.sugrobov.weather.service.IHistoryService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,10 +32,15 @@ import java.io.IOException;
 @Slf4j
 public class GenerateTokenForUserFilter extends AbstractAuthenticationProcessingFilter{
     private TokenUtil tokenUtil;
-    protected GenerateTokenForUserFilter(String urlMapping, AuthenticationManager authenticationManager, TokenUtil tokenUtil){
+    private IHistoryService historyService;
+    private UserRepository userRepository;
+    protected GenerateTokenForUserFilter(String urlMapping, AuthenticationManager authenticationManager,
+                                         TokenUtil tokenUtil, IHistoryService historyService, UserRepository userRepository){
         super(new AntPathRequestMatcher(urlMapping));
         setAuthenticationManager(authenticationManager);
         this.tokenUtil = tokenUtil;
+        this.historyService = historyService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -44,7 +52,9 @@ public class GenerateTokenForUserFilter extends AbstractAuthenticationProcessing
             String password = userJSON.getString("password");
             String browser = request.getHeader("User-Agent")!= null?request.getHeader("User-Agent"):"";
             String ip = request.getRemoteAddr();
-            log.info("\nip:{} \nbrowser:{} \n----",ip,browser);
+            String info = String.format("ip:%s browser:%s username:%s",ip,browser,username);
+            log.info(info);
+            historyService.writeAction(userRepository.findOneByUserId(username).orElse(null), UserAction.LOGIN_ATTEMPT, info);
             final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
             return getAuthenticationManager().authenticate(authToken);
         }
@@ -61,6 +71,7 @@ public class GenerateTokenForUserFilter extends AbstractAuthenticationProcessing
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String tokenString = this.tokenUtil.createTokenForUser(tokenUser);
         sessionItem.setToken(tokenString);
+        historyService.writeAction(tokenUser.getUser(), UserAction.LOGIN, "Успешный вход");
         SessionResponse sessionResponse = new SessionResponse(OperationResponse.ResponseStatusEnum.SUCCESS,
                 "Successfully logged in", sessionItem);
         String jsonRespString = ow.writeValueAsString(sessionResponse);

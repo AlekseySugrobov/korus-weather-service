@@ -17,9 +17,6 @@ export class ApiRequestService {
     private userInfoService:UserInfoService
   ) {}
 
-  /**
-   * This is a Global place to add all the request headers for every REST calls
-   */
   getHeaders():HttpHeaders {
     let headers = new HttpHeaders();
     let token = this.userInfoService.getStoredToken();
@@ -36,7 +33,7 @@ export class ApiRequestService {
       .catch(function(error:any){
         console.log("Some error in catch");
         if (error.status === 401 || error.status === 403){
-          me.router.navigate(['/logout']);
+          me.router.navigate(['/']);
         }
         return Observable.throw(error || 'Server error')
       });
@@ -47,7 +44,7 @@ export class ApiRequestService {
     return this.http.post(this.appConfig.baseApiPath + url, JSON.stringify(body), { headers:this.getHeaders()})
       .catch(function(error:any){
         if (error.status === 401){
-          me.router.navigate(['/logout']);
+          me.router.navigate(['/']);
         }
         return Observable.throw(error || 'Server error')
       });
@@ -58,7 +55,7 @@ export class ApiRequestService {
     return this.http.put(this.appConfig.baseApiPath + url, JSON.stringify(body), { headers:this.getHeaders()})
       .catch(function(error:any){
         if (error.status === 401){
-          me.router.navigate(['/logout']);
+          me.router.navigate(['/']);
         }
         return Observable.throw(error || 'Server error')
       });
@@ -69,7 +66,7 @@ export class ApiRequestService {
     return this.http.delete(this.appConfig.baseApiPath + url, { headers:this.getHeaders()})
       .catch(function(error:any){
         if (error.status === 401){
-          me.router.navigate(['/logout']);
+          me.router.navigate(['/']);
         }
         return Observable.throw(error || 'Server error')
       });

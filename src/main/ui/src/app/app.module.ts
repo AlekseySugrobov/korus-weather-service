@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule,
-  MatMenuModule
+  MatMenuModule, MatTableModule
 } from "@angular/material";
 import { SearchComponent } from './components/search/search.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -20,6 +20,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {WeatherService} from "./services/api/weather.service";
 import {WeatherInfoService} from "./services/weather-info.service";
 import { WeatherInfoComponent } from './components/weather-info/weather-info.component';
+import { HistoryComponent } from './components/history/history.component';
+import {HistoryService} from "./services/api/history.service";
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { WeatherInfoComponent } from './components/weather-info/weather-info.com
     SearchComponent,
     MenuComponent,
     LoginComponent,
-    WeatherInfoComponent
+    WeatherInfoComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +44,10 @@ import { WeatherInfoComponent } from './components/weather-info/weather-info.com
     AppRoutingModule,
     HttpClientModule,
     MatCheckboxModule,
-    MatCardModule
+    MatCardModule,
+    MatTableModule
   ],
-  providers: [LoginService, UserInfoService, ApiRequestService, AppConfig, WeatherService, WeatherInfoService],
+  providers: [LoginService, UserInfoService, ApiRequestService, AppConfig, WeatherService, WeatherInfoService, HistoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

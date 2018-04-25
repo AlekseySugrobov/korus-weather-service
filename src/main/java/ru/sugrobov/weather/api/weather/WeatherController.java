@@ -6,11 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import ru.sugrobov.weather.identity.TokenUser;
+import ru.sugrobov.weather.model.history.UserAction;
 import ru.sugrobov.weather.model.response.OperationResponse;
+import ru.sugrobov.weather.model.user.User;
 import ru.sugrobov.weather.model.weather.Coordinates;
 import ru.sugrobov.weather.model.weather.Weather;
 import ru.sugrobov.weather.model.weather.WeatherResponse;
+import ru.sugrobov.weather.service.IHistoryService;
+import ru.sugrobov.weather.service.IUserService;
 import ru.sugrobov.weather.service.IWeatherService;
 
 @RestController
@@ -22,10 +29,17 @@ public class WeatherController {
     @Qualifier("openWeatherService")
     private IWeatherService weatherService;
 
+    @Autowired
+    private IHistoryService historyService;
+
+    @Autowired
+    private IUserService userService;
+
     @ApiOperation(value = "Получение погоды по наименованию города")
     @RequestMapping(value = "/weatherByCity", method = RequestMethod.GET)
     public WeatherResponse getWeatherByCity(@RequestParam String city){
         log.info("searching city by name: {}", city);
+        logWeatherRequest(userService.getUser(), "Запрос погоды по городу: " + city);
         Weather weather = weatherService.getWeatherByCity(city);
         return getWeatherResponse(weather);
     }
@@ -33,7 +47,8 @@ public class WeatherController {
     @ApiOperation(value = "Получение погоды по координатам")
     @RequestMapping(value = "/weatherByCoordinates", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public WeatherResponse getWeatherByCoordinates(@RequestBody Coordinates coordinates){
-        log.info("searching city by coordinates: lat {}, lng {}", coordinates.getLattitude(), coordinates.getLongitude());
+        log.info("searching weather by coordinates: lat {}, lng {}", coordinates.getLattitude(), coordinates.getLongitude());
+        logWeatherRequest(userService.getUser(), String.format("Запрос погоды по координатам: lat %s, lng %s", coordinates.getLattitude(), coordinates.getLattitude()));
         Weather weather = weatherService.getWeatherByCoordinates(coordinates);
         return getWeatherResponse(weather);
     }
@@ -51,4 +66,9 @@ public class WeatherController {
         }
         return weatherResponse;
     }
+
+    private void logWeatherRequest(User user, String description){
+        historyService.writeAction(user, UserAction.WEATHER_REQUEST, description);
+    }
+
 }

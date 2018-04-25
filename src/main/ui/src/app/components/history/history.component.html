@@ -1,0 +1,44 @@
+<table idth="100%" border="0" cellspacing="5" cellpadding="5">
+  <thead>
+  <td *ngIf="isAdmin() === true">
+    Пользователь
+  </td>
+  <td *ngIf="isAdmin() === true">
+    Логин пользователя
+  </td>
+  <td *ngIf="isAdmin() === true">
+    Роль пользователя
+  </td>
+  <td>
+    Действие
+  </td>
+  <td>
+    Описание
+  </td>
+  <td>
+    Дата
+  </td>
+  </thead>
+  <tbody>
+  <tr *ngFor="let record of history">
+    <td *ngIf="isAdmin() === true">
+      {{record.user ? record.user.fullName : 'Гость'}}
+    </td>
+    <td *ngIf="isAdmin() === true">
+      {{record.user ? record.user.userId : '-'}}
+    </td>
+    <td *ngIf="isAdmin() === true">
+      {{record.user ? record.user.role : '-'}}
+    </td>
+    <td>
+      {{record.userAction}}
+    </td>
+    <td>
+      {{record.description}}
+    </td>
+    <td>
+      {{record.actionDate | date: 'dd.MM.yyyy HH:mm:ss'}}
+    </td>
+  </tr>
+  </tbody>
+</table>

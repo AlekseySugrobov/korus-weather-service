@@ -54,7 +54,7 @@ export class LoginService {
             loginInfoReturn = {
               "success": false,
               "message": jsonResp.msgDesc,
-              "landingPage": "/login"
+              "landingPage": "/"
             };
           }
           loginDataSubject.next(loginInfoReturn);
@@ -63,7 +63,7 @@ export class LoginService {
           loginInfoReturn = {
             "success": false,
             "message": err.url + " >>> " + err.statusText + "[" + err.status + "]",
-            "landingPage": "/login"
+            "landingPage": "/"
           };
         });
 
@@ -71,6 +71,7 @@ export class LoginService {
   }
 
   logout(navigatetoLogout=true): void {
+    this.apiRequest.post('/api/logout', this.userInfoService.getUserInfo()).subscribe(resp => console.log(resp));
     this.userInfoService.removeUserInfo();
     if(navigatetoLogout){
       this.router.navigate(["/"]);

@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.sugrobov.weather.identity.TokenUtil;
+import ru.sugrobov.weather.repository.UserRepository;
+import ru.sugrobov.weather.service.IHistoryService;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +19,10 @@ import ru.sugrobov.weather.identity.TokenUtil;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenUtil tokenUtil;
+    @Autowired
+    private IHistoryService historyService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -33,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
                 .addFilterBefore(new VerifyTokenFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new GenerateTokenForUserFilter ("/session", authenticationManager(), tokenUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new GenerateTokenForUserFilter ("/session", authenticationManager(), tokenUtil, historyService, userRepository), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests().antMatchers("/api/weatherByCoordinates", "/api/weatherByCity").permitAll()
                 .anyRequest().authenticated()
         ;

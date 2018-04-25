@@ -7,15 +7,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.sugrobov.weather.model.history.UserAction;
 import ru.sugrobov.weather.model.response.OperationResponse;
 import ru.sugrobov.weather.model.session.SessionItem;
 import ru.sugrobov.weather.model.session.SessionResponse;
 import ru.sugrobov.weather.model.user.Login;
 import ru.sugrobov.weather.model.user.User;
 import ru.sugrobov.weather.repository.UserRepository;
+import ru.sugrobov.weather.service.IHistoryService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 @RestController
 @Api(tags={"Authentication"})
@@ -48,4 +51,5 @@ public class SessionController {
         }
         return sessionResponse;
     }
+
 }
