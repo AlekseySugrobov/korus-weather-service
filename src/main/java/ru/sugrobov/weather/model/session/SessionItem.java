@@ -12,7 +12,7 @@ public class SessionItem {
     private String firstName;
     private String lastName;
     private String email;
-    private List<String> roles;
+    private String role;
 
     public static SessionItem mapTokenUser(TokenUser tokenUser){
         SessionItem sessionItem = new SessionItem();
@@ -20,6 +20,7 @@ public class SessionItem {
         sessionItem.setLastName(tokenUser.getUser().getLastName());
         sessionItem.setUserId(tokenUser.getUser().getUserId());
         sessionItem.setEmail(tokenUser.getUser().getEmail());
+        sessionItem.setRole(tokenUser.getRole());
         return sessionItem;
     }
 }

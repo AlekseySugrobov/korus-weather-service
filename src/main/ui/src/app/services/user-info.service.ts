@@ -5,6 +5,7 @@ export interface UserInStorage {
   email: string;
   displayName: string;
   token: string;
+  role: string;
 }
 
 export interface LoginInfoInStorage {
@@ -33,7 +34,6 @@ export class UserInfoService {
   getUserInfo(): UserInStorage | null {
     try {
       let userInfoString: string = this.storage.getItem(this.currentUserKey);
-      console.log(userInfoString);
       if (userInfoString) {
         let userObj: UserInStorage = JSON.parse(userInfoString)
         return userObj;
@@ -61,6 +61,14 @@ export class UserInfoService {
     let userObj: UserInStorage = this.getUserInfo();
     if (userObj !== null) {
       return userObj.token;
+    }
+    return null;
+  }
+
+  getUserRole(): string | null {
+    let userObj: UserInStorage = this.getUserInfo();
+    if (userObj !== null) {
+      return userObj.role;
     }
     return null;
   }

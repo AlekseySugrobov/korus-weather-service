@@ -1,0 +1,17 @@
+.search-form {
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.width-75 {
+  width: 75%;
+}
+
+.s-login-pg-foot{
+  width:100%;
+  min-height:40px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}

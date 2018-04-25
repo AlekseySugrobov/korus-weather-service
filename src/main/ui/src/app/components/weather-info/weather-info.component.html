@@ -1,0 +1,51 @@
+<mat-card class="weather-card" *ngIf="isWeatherLoaded() === true">
+  <mat-card-header>
+    <mat-card-title>Погода в горде:</mat-card-title>
+    <mat-card-subtitle>{{getWeatherInfo().city.name}}({{getWeatherInfo().city.country}})</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table width="100%" border="0" cellspacing="5" cellpadding="5">
+      <tbody>
+      <tr>
+        <td>
+          <label>Температура:</label>
+        </td>
+        <td>
+          <label>{{getWeatherInfo().data.dataMain.temp}}</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Давление:</label>
+        </td>
+        <td>
+          <label>{{getWeatherInfo().data.dataMain.pressure}}</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Влажность:</label>
+        </td>
+        <td>
+          <label>{{getWeatherInfo().data.dataMain.humidity}}</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Осадки:</label>
+        </td>
+        <td>
+          <label>{{getWeatherInfo().data.precipitation.description}}</label>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+<div style="width: 100%; text-align: center">
+  <h3 *ngIf="isWeatherLoaded() === false">
+    Отсутствует информация о погоде
+  </h3>
+  <br/>
+  <button mat-raised-button color="primary" (click)="backToSearch()">Вернуться к поиску</button>
+</div>

@@ -22,6 +22,10 @@ export class MenuComponent implements OnInit {
     return this.userInfoService.getUserInfo().displayName;
   }
 
+  isAdmin():boolean{
+    return this.userInfoService.getUserInfo().role === 'ADMIN';
+  }
+
   logout(){
     this.loginService.logout();
   }

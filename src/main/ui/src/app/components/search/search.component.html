@@ -1,3 +1,27 @@
-<p>
-  search works!
-</p>
+<div align="center" class="search-form">
+  <h1>
+    Добро пожаловать, {{getName()}}!
+  </h1>
+  <h3>
+    Поиск погоды по {{byCoords === true ? 'координатам' : 'наименованию города'}}
+  </h3>
+  <mat-form-field class="width-75" *ngIf="byCoords === false">
+    <input matInput placeholder="Наименование города" id="city" name="city"
+           [value]="city" (input)="city = $event.target.value">
+  </mat-form-field>
+  <mat-form-field class="width-75" *ngIf="byCoords === true">
+    <input matInput placeholder="Долгота" id="longitude" name="longitude"
+           [value]="longitude" (input)="longitude = $event.target.value">
+  </mat-form-field>
+  <mat-form-field class="width-75" *ngIf="byCoords === true">
+    <input matInput placeholder="Широта" id="latitude" name="latitude"
+           [value]="lattitude" (input)="lattitude = $event.target.value">
+  </mat-form-field>
+  <br/>
+  <mat-checkbox [value]="byCoords" (change)="changeSearchParam($event)">Искать по координатам</mat-checkbox>
+  <br/>
+  <div class="s-login-pg-foot">
+    <div *ngIf="errMsg" style="color:indianred; font-weight: bold">{{errMsg}}</div>
+  </div>
+  <button mat-raised-button color="primary" (click)="searchWeather()">Искать</button>
+</div>

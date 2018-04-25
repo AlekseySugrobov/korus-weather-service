@@ -33,7 +33,7 @@ export class LoginService {
 
     this.apiRequest.post('session', bodyData)
       .subscribe(jsonResp => {
-        console.log(jsonResp);
+          console.log(jsonResp);
           if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationState === "SUCCESS") {
             loginInfoReturn = {
               "success": true,
@@ -43,7 +43,8 @@ export class LoginService {
                 "userId": jsonResp.item.userId,
                 "email": jsonResp.item.emailAddress,
                 "displayName": jsonResp.item.firstName + " " + jsonResp.item.lastName,
-                "token": jsonResp.item.token
+                "token": jsonResp.item.token,
+                "role": jsonResp.item.role
               }
             };
             console.log(loginInfoReturn);
